@@ -11,7 +11,6 @@ class Solution {
         }
         
         arr[rocks.length] = distance;
-        // System.out.println(Arrays.toString(arr));
         
         int s = 1;
         int e = distance;
@@ -21,19 +20,16 @@ class Solution {
             
             int cnt = 0;
             int prev = 0;
-            // int min = distance;
             
             for (int i = 0; i < arr.length; i++) {
                 if (arr[i] - prev < mid) {
                     cnt++;
                 } else {
-                    // min = Math.min(min, arr[i] - prev);
                     prev = arr[i];
                 }
             }
             
             if (cnt <= n) {
-                // answer = Math.max(answer, min);
                 answer = mid;
                 s = mid + 1;
             } else {
