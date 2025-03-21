@@ -2,14 +2,14 @@ import java.util.*;
 class Solution {
     public int solution(int[][] triangle) {
         int answer = 0;
-
-        int len = triangle.length;
         
+        int len = triangle.length;
         if(len == 1){
             return triangle[0][0];
         }
         
         int[][] result = new int[len + 1][len + 1];
+        
         result[0][1] = result[0][0] = triangle[0][0];
 
         for (int i = 1; i < len; i++) {
