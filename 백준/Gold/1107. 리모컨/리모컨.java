@@ -1,40 +1,55 @@
 import java.io.*;
 import java.util.*;
+import java.util.function.Function;
 
 public class Main {
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringTokenizer st;
-    
-    static int chl, cnt = Integer.MAX_VALUE;
-    static boolean[] fix = new boolean[10];
-    
-    public static void search(int n, String nowChl) {
-    	for(int i = 0; i < 10; i++) {
-    		if(!fix[i]) {
-    			String nextChl = nowChl + Integer.toString(i);
-    			int tmp = Math.abs(chl - Integer.parseInt(nextChl)) + nextChl.length();
-    			cnt = Math.min(cnt, tmp);
-    			if(n < 6) search(n+1, nextChl);
-    		}
-    		
-    	}
-    }
-    
-    public static void main(String[] args)throws IOException {
-    	chl = Integer.parseInt(br.readLine());
-    	int m = Integer.parseInt(br.readLine());
-    	
-       	if(m > 0) {
-       		st = new StringTokenizer(br.readLine());
-       		for(int i = 0; i < m; i++) {
-       			fix[Integer.parseInt(st.nextToken())] = true;
-       		}
-       	}
-        
-       	if(chl == 100) {System.out.println(0); return;}
-        cnt = Math.abs(chl-100);
-       	search(0, "");
-       	
-       	System.out.println(cnt);
-    }
+	static Function<String, Integer> stoi = Integer::parseInt;
+	static int res;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+
+		int n = stoi.apply(in.readLine());
+		int m = stoi.apply(in.readLine());
+
+		boolean[] button = new boolean[10];
+
+		if (m > 0) {
+			st = new StringTokenizer(in.readLine());
+			for (int i = 0; i < m; i++) {
+				button[stoi.apply(st.nextToken())] = true;
+			}
+		}
+
+		res = Math.abs(n - 100);
+
+		for (int i = 0;; i++) {
+
+			if (i - n > res) {
+				break;
+			}
+
+			find(i, n, button);
+		}
+
+		System.out.print(res);
+	}
+
+	private static void find(int cur, int num, boolean[] button) {
+		int length = 0;
+		int next = cur;
+		
+		do {
+			length++;
+			if (button[next % 10]) {
+				return;
+			}
+			next /= 10;
+
+		} while (next != 0);
+
+        if (length + Math.abs(num - cur) < res)
+            res = length + Math.abs(num - cur);
+	}
 }
