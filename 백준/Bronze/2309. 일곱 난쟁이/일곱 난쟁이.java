@@ -9,27 +9,28 @@ public class Main {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 
-		int[] arr = new int[9];
 		int sum = 0;
+
+		int[] nums = new int[9];
 		for (int i = 0; i < 9; i++) {
-			arr[i] = stoi.apply(in.readLine());
-			sum += arr[i];
+			nums[i] = stoi.apply(in.readLine());
+			sum += nums[i];
 		}
 
-		Arrays.sort(arr);
-
-		check: for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 8; i++) {
 			for (int j = i + 1; j < 9; j++) {
-				if (sum - (arr[i] + arr[j]) == 100) {
-					arr[i] = arr[j] = -1;
-					break check;
+				if (sum - (nums[i] + nums[j]) == 100) {
+					nums[i] = -1;
+					nums[j] = -1;
+	
+                    Arrays.sort(nums);
+		
+                    for (int k = 2; k < 9; k++) {
+                        System.out.println(nums[k]);
+                    }
+                    
+                    return;
 				}
-			}
-		}
-
-		for (int i = 0; i < 9; i++) {
-			if (arr[i] != -1) {
-				System.out.println(arr[i]);
 			}
 		}
 	}
