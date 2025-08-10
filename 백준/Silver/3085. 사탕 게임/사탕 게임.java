@@ -10,80 +10,79 @@ public class Main {
 		StringTokenizer st;
 
 		int n = stoi.apply(in.readLine());
+		char[][] map = new char[n][];
 
-		char[][] map = new char[n][n];
 		for (int i = 0; i < n; i++) {
 			map[i] = in.readLine().toCharArray();
 		}
 
-		change(map, n);
+		find(n, map);
 	}
 
-	static int[] dx = { 0, 1 };
-	static int[] dy = { 1, 0 };
+	static int[] dx = { 1, 0 };
+	static int[] dy = { 0, 1 };
 
-	private static void change(char[][] map, int n) {
-		int res = 0;
+	private static void find(int n, char[][] map) {
+		int candy = -1;
 
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 
 				for (int d = 0; d < 2; d++) {
-					int nr = i + dx[d];
-					int nc = j + dy[d];
+					int nx = i + dx[d];
+					int ny = j + dy[d];
 
-					if (nr < 0 || nc < 0 || nr >= n || nc >= n) {
+					if (nx < 0 || ny < 0 || nx >= n || ny >= n) {
 						continue;
 					}
 
-					if (map[i][j] != map[nr][nc]) {
-						swap(i, j, nr, nc, map);
-						res = Math.max(res, sum(map, n));
-						swap(i, j, nr, nc, map);
+					if (map[i][j] != map[nx][ny]) {
+						swap(map, i, j, nx, ny);
+						candy = Math.max(candy, count(n,candy, map));
+						swap(map, i, j, nx, ny);
 					}
 				}
 			}
 		}
 
-		System.out.print(res);
+		System.out.print(candy);
 	}
 
-	private static int sum(char[][] map, int n) {
-		int cnt = 1;
-		int maxCnt = 0;
-
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n - 1; j++) {
-				if (map[i][j] == map[i][j + 1]) {
-					cnt++;
-				} else {
-					cnt = 1;
-				}
-                
-				maxCnt = Math.max(maxCnt, cnt);
-			}
-			
-			cnt = 1;
-
-			for (int j = 0; j < n - 1; j++) {
-				if (map[j][i] == map[j + 1][i]) {
-					cnt++;
-				} else {
-					cnt = 1;
-				}
-                
-				maxCnt= Math.max(maxCnt, cnt);
-			}
-            
-			cnt = 1;
-		}
-
-		return maxCnt;
-	}
-
-	private static void swap(int i, int j, int nr, int nc, char[][] map) {
-		char temp = map[i][j];
-		map[i][j] = map[nr][nc];
+	private static void swap(char[][] map, int r, int c, int nr, int nc) {
+		char temp = map[r][c];
+		map[r][c] = map[nr][nc];
 		map[nr][nc] = temp;
+	}
+
+	private static int count(int n, int candy, char[][] map) {
+		int max = -1;
+		
+		for (int i = 0; i < n; i++) {
+			int idx = 1;
+			int item = 1;
+			
+			while (idx < n) {
+				if (map[i][idx - 1] != map[i][idx++]) {
+					item = 1;
+					continue;
+				}
+				
+				max = Math.max(max, ++item);
+			}
+
+			idx = 1;
+			item = 1;
+            
+			while (idx < n) {
+				if (map[idx - 1][i] != map[idx++][i]) {
+					item = 1;
+					continue;
+				}
+				
+				max = Math.max(max, ++item);
+			}
+		}
+		
+		return max;
 	}
 }
