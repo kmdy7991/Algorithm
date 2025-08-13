@@ -20,17 +20,11 @@ class Solution {
             }
         }
         
-        if(!stack.isEmpty()){
+        if (!stack.isEmpty()) {
             deploy.add(stack.size());
         }
         
-        int[] res = new int[deploy.size()];
-        
-        for(int i = 0; i <  deploy.size();i++){
-            res[i] = deploy.get(i);
-        }
-        
-        return res;
+        return deploy.stream().mapToInt(Integer::intValue).toArray();
     }
     
     private static int date(int progress, int speed) {
