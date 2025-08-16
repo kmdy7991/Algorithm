@@ -1,21 +1,25 @@
 class Solution {
-    static int res;
+    static int res = 0;
+
     public int solution(int[] numbers, int target) {
         
-        res = 0;
-        cal(0, numbers, target, 0);
+        count(0, 0, target, numbers);
         
         return res;
     }
-    private static void cal(int cur, int[] numbers, int target, int sum){
-        if(cur == numbers.length) {
-            if(target == sum) {
+    
+    private void count(int idx, int num, int target, int[] numbers) {
+        
+        if (idx == numbers.length) {
+            if (num == target) {
                 res++;
             }
+            
             return;
         }
         
-        cal(cur + 1, numbers, target, sum + numbers[cur]);
-        cal(cur + 1, numbers, target, sum - numbers[cur]);
+        count(idx + 1, num + numbers[idx], target, numbers);
+        count(idx + 1, num - numbers[idx], target, numbers);
+        
     }
 }
