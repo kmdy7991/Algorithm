@@ -7,7 +7,7 @@ class Solution {
         Map<String, Integer> map = new HashMap<>();
         
         int n = phone_book.length;
-        for(int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             map.put(phone_book[i], 0);
         }
         
