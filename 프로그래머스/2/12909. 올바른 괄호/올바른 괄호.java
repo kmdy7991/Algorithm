@@ -6,16 +6,18 @@ class Solution {
         
         for (char c : s.toCharArray()){
             if (c == ')') {
-                if(stack.isEmpty()){
+                if (stack.isEmpty()) {
                     return false;
-                } else{
-                    stack.pollLast();
                 }
+                    
+                stack.pollLast();
+                
                 continue;
             }
+            
             stack.offerLast(c);
         }
         
-        return !(stack.size() > 0);
+        return stack.size() == 0;
     }
 }
