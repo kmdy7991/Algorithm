@@ -1,48 +1,43 @@
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.StringTokenizer;
+import java.io.InputStreamReader;
+import java.util.*;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
 
         int n = Integer.parseInt(in.readLine());
 
-        int[] arr = new int[n];
+        int[] nums = new int[n];
 
-        st = new StringTokenizer(in.readLine());
+        StringTokenizer st = new StringTokenizer(in.readLine());
         for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
+            nums[i] = Integer.parseInt(st.nextToken());
         }
 
-        System.out.print(npe(arr, n - 1));
-    }
+        int[] res = new int[n];
+        Arrays.fill(res, -1);
 
-    private static String npe(int[] arr, int n) {
         Deque<Integer> stack = new ArrayDeque<>();
-        
-        int[] store = new int[n + 1];
-        Arrays.fill(store, -1);
+        for (int i = n - 1; i >= 0; i--) {
 
-        for (int i = 0; i < arr.length; i++) {
-            while (!stack.isEmpty() && arr[stack.peekLast()] < arr[i]) {
-                store[stack.pollLast()] = arr[i];
+            while (!stack.isEmpty() && stack.peekLast() <= nums[i]) {
+                stack.pollLast();
             }
 
-            stack.offerLast(i);
+            if (!stack.isEmpty()) {
+                res[i] = stack.peekLast();
+            }
+
+            stack.offerLast(nums[i]);
         }
 
         StringBuilder sb = new StringBuilder();
-        for (int num : store) {
-            sb.append(num).append(" ");
+        for(int i = 0; i < n; i++){
+            sb.append(res[i]).append(" ");
         }
 
-        return sb.toString();
+        System.out.print(sb);
     }
 }
